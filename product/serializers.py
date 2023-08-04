@@ -9,16 +9,18 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    id=serializers.CharField(read_only=True)
+    category = serializers.SlugRelatedField(slug_field='name',queryset=Category.objects.all())
 
     class Meta:
         model = Product
         fields = '__all__'
 
 class CartItemSerializer(serializers.ModelSerializer):
+    product = serializers.CharField(read_only=True)
     class Meta:
         model = CartItem
-        fields = '__all__'
+        fields = ['id', 'quantity', 'cart', 'product']
 
 class CartSerializer(serializers.ModelSerializer):
     cart_items = CartItemSerializer(many=True, read_only=True)

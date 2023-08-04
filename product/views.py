@@ -1,5 +1,5 @@
 
-from rest_framework import viewsets
+from rest_framework import viewsets,filters
 from .models import Category, Product,Cart,CartItem
 from .serializers import CategorySerializer, ProductSerializer,CartSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
+
 
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -29,6 +30,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     permission_classes = [IsAdminOrReadOnly] 
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+
 
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
@@ -39,10 +43,14 @@ class CartViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def my_cart(self, request):
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        serializer = CartSerializer(cart)
-        return Response(serializer.data)
-
+        try:
+            cart = Cart.objects.get(user=request.user)
+            serializer = CartSerializer(cart)
+            return Response(serializer.data)
+        except Cart.DoesNotExist:
+            return Response({'error': 'Cart not found for the logged-in user.'})
+        
+        
     @action(detail=False, methods=['post'])
     def add_to_cart(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -93,4 +101,4 @@ class CartViewSet(viewsets.ModelViewSet):
 
         serializer = CartSerializer(cart_item.cart)
         return Response(serializer.data)
-
+    
