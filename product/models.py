@@ -1,5 +1,6 @@
 from django.db import models
 from myaccount.models import User
+from django.db.models.signals import post_save
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -34,3 +35,4 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity}x {self.product.name} in Cart {self.cart.id}"
+    
