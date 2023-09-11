@@ -72,7 +72,7 @@ class CartViewSet(viewsets.ModelViewSet):
         serializer = CartSerializer(cart)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['put'])
     def update_cart_item(self, request):
         cart_item_id = request.data.get('cart_item_id')
         quantity = int(request.data.get('quantity', 1))

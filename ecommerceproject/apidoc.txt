@@ -1,0 +1,96 @@
+register
+=============
+url:localhost:8000/api/register/
+method:post
+data:{username,email,password}
+
+status::completed
+
+jwt token
+============
+url:localhost:8000/api/token/
+method:post
+data:{username,password}
+
+status:completed
+
+category-add
+============
+url:localhost:8000/api/categories/
+method:post
+authentication:jwt token (admin)
+
+status:completed
+
+category-list
+==============
+url:localhost:8000/api/categories/
+method:get
+authentication:no authentication
+
+status:completed
+
+category-detail
+================
+url:localhost:8000/api/categories/
+method:get
+authentication:no authentication
+
+status:completed
+
+category-update
+================
+url:localhost:8000/api/categories/
+method:put
+authentication:jwt token (admin)
+
+status:completed
+
+category-delete
+================
+url:localhost:8000/api/categories/
+method:delete
+authentication:jwt token (admin)
+
+status:completed
+
+product-add
+============
+url:localhost:8000/api/products/
+method:post
+authentication:jwt token(admin only)
+
+status:completed
+
+product-list
+============
+url:localhost:8000/api/products/
+method:get
+authentication:no authentication
+
+status:completed
+
+product-detail
+===============
+url:localhost:8000/api/products/
+method:get
+authentication:no authentication
+
+status:completed
+
+product-update
+===============
+url:localhost:8000/api/products/
+method:put
+authentication:jwt token (admin only)
+
+status:completed
+
+product-delete
+===============
+url:localhost:8000/api/products/
+method:delete
+authentication:no authentication
+
+status:completed
+
